@@ -105,49 +105,30 @@ Fraction Fraction::operator / (const Fraction& other)
 }
 
 // compare two fractions  
-bool Fraction::operator == (const Fraction& other)
+bool ariel::operator==(const Fraction& fraction1, const Fraction& fraction2)
 {
-    cout << "im here" <<  endl;
-    int left = this->getNumerator() * other.getDenominator();
-    int right = this->getDenominator() * other.getNumerator();
-    if(left == right) return true;
-    return false;
+
+    return fraction1.getNumerator() * fraction2.getDenominator() == fraction2.getNumerator() * fraction1.getDenominator();
 }
 
-// compare two fractions  
-bool Fraction::operator < (const Fraction& other)
+bool  ariel::operator<(const Fraction& fraction1, const Fraction& fraction2)
 {
-    int left = this->getNumerator() * other.getDenominator();
-    int right = this->getDenominator() * other.getNumerator();
-    if(left > right) return true;
-    return false;
+    return fraction1.getNumerator() * fraction2.getDenominator() < fraction2.getNumerator() * fraction1.getDenominator();
 }
 
-// compare two fractions  
-bool Fraction::operator > (const Fraction& other)
+bool  ariel::operator>(const Fraction& fraction1, const Fraction& fraction2)
 {
-    int left = this->getNumerator() * other.getDenominator();
-    int right = this->getDenominator() * other.getNumerator();
-    if(left < right) return true;
-    return false;
+    return fraction1.getNumerator() * fraction2.getDenominator() > fraction2.getNumerator() * fraction1.getDenominator(); 
 }
 
-// compare two fractions  
-bool Fraction::operator <= (const Fraction& other)
+bool   ariel::operator<=(const Fraction& fraction1, const Fraction& fraction2)
 {
-    int left = this->getNumerator() * other.getDenominator();
-    int right = this->getDenominator() * other.getNumerator();
-    if(left <= right) return true;
-    return false;
+    return fraction1.getNumerator() * fraction2.getDenominator() <= fraction2.getNumerator() * fraction1.getDenominator(); 
 }
 
-// compare two fractions  
-bool Fraction::operator >= (const Fraction& other)
+bool  ariel::operator>=(const Fraction& fraction1, const Fraction& fraction2)
 {
-    int left = this->getNumerator() * other.getDenominator();
-    int right = this->getDenominator() * other.getNumerator();
-    if(left >= right) return true;
-    return false;
+    return fraction1.getNumerator() * fraction2.getDenominator() >= fraction2.getNumerator() * fraction1.getDenominator(); 
 }
 
 // increment fraction 

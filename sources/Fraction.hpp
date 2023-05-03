@@ -36,20 +36,6 @@ namespace ariel
             // this function conver the fraction to float number 
             float toFloat() const;
 
-            // // turn the franction to negative fraction
-            // void toNegative()
-            // {
-            //     // means the number is already negative 
-            //     if(this->numerator<0)
-            //     {
-            //         return;
-            //     }
-            //     else
-            //     {
-            //         this->numerator*=-1;
-            //     }
-            // }
-
             // return the numerator 
             int getNumerator() const
             {
@@ -106,15 +92,12 @@ namespace ariel
             Fraction operator / (const Fraction& other); // overloading / operator
             //comprasion 
             // ==
-            bool operator == (const Fraction& other); // overloading == operator
-            // <
-            bool operator < (const Fraction& other); // overloading < operator
-            // <=
-            bool operator <= (const Fraction& other); // overloading <= operator
-            // >
-            bool operator > (const Fraction& other); // overloading > operator
-            // >=
-            bool operator >= (const Fraction& other); // overloading >= operator
+            friend bool operator==(const Fraction& fraction1, const Fraction& fraction2);
+            friend bool operator<(const Fraction& fraction1, const Fraction& fraction2);
+            friend bool operator>(const Fraction& fraction1, const Fraction& fraction2);
+            friend bool operator<=(const Fraction& fraction1, const Fraction& fraction2);
+            friend bool operator>=(const Fraction& fraction1, const Fraction& fraction2);
+
             // increment decrement 
             Fraction& operator ++(); // overloading pre ++ operator
             Fraction operator ++(int); // overloading post ++ operator

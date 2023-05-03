@@ -21,7 +21,7 @@ int main() {
     cout << "a: " << a << "b: " << b << endl;
     cout << "a+b" << a+b << endl; 
     cout << "a-b" << a-b << endl; 
-    cout << (a==b) << endl;
+    cout << (a>=b) << endl;
     
     // cout << "a/b" << a/b << endl; 
     // cout << "a*b" << a*b << endl; 

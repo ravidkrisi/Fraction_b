@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "chrono": "cpp",
+        "compare": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "string_view": "cpp",
+        "random": "cpp",
+        "stop_token": "cpp",
+        "system_error": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp"
+    }
+}
