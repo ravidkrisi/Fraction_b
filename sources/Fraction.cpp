@@ -1,11 +1,21 @@
 #include "Fraction.hpp"
 #include <numeric>
 #include <cmath>
+#include <limits>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <limits>
+
 
 using namespace ariel;
 using namespace std;
 
-// define constructor loaded with integers 
+// define constructor loaded with integers
+Fraction::Fraction(): numerator(0), denominator(1000){}
+
 Fraction::Fraction(int nrm, int dnm): numerator(nrm), denominator(dnm)
 {
     if (this->denominator == 0)
@@ -64,44 +74,63 @@ float Fraction:: toFloat() const
 // sums two fractions 
 Fraction Fraction::operator + (const Fraction& other)
 {
+    long nrm = static_cast<long> (this->getNumerator()*other.getDenominator()+other.getNumerator()*this->getDenominator());
+    long dnm = static_cast<long> (this->getDenominator()*other.getDenominator());
 
-    float a = this->toFloat();
-    float b = other.toFloat();
+//    checkOverflow(nrm, dnm);
 
-    return Fraction(a+b);
+    return Fraction((this->getNumerator()*other.getDenominator()+other.getNumerator()*this->getDenominator()), this->getDenominator()*other.getDenominator());
+
+}
+
+Fraction ariel::operator +(float num, const Fraction& frac)
+{
+    return (Fraction(num)+frac);
 }
 
 // substract two fractions 
 Fraction Fraction::operator - (const Fraction& other)
 {
-    // int nrm = (this->getNumerator()*other.getDenominator()) - (other.getNumerator()*this->getDenominator()); // calc new fraction nrm
-    // int dnm = this->getDenominator()*other.getDenominator(); // calc new fraction dnm
-    // int gcd = Fraction::gcd(nrm, dnm); // calc the gcd of nrm and dnm 
+    long nrm = static_cast<long> (this->getNumerator()*other.getDenominator()-other.getNumerator()*this->getDenominator());
+    long dnm = static_cast<long> (this->getDenominator()*other.getDenominator());
 
-    // return Fraction((nrm/gcd), (dnm/gcd)); 
+//    checkOverflow(nrm, dnm);
 
-    float a = this->toFloat();
-    float b = other.toFloat();
-
-    return Fraction (a-b);
-
+    return Fraction((this->getNumerator()*other.getDenominator()-other.getNumerator()*this->getDenominator()), this->getDenominator()*other.getDenominator());
+}
+Fraction ariel::operator -(float num, const Fraction& frac)
+{
+    return (Fraction(num)-frac);
 }
 
 // multiply two fractions 
 Fraction Fraction::operator * (const Fraction& other)
 {
-    int nrm = this->getNumerator() * other.getNumerator();
-    int dnm = this->getDenominator() * other.getDenominator();
 
-    int gcd = Fraction::gcd(nrm, dnm);
+    overflow_multiplication_check(this->getNumerator(), other.getNumerator());
+    overflow_multiplication_check(this->getDenominator(), other.getDenominator());
 
-    return Fraction((nrm/gcd), (dnm/gcd));
+
+    return Fraction(this->getNumerator()*other.getNumerator(), this->getDenominator()*other.getDenominator());
+}
+Fraction ariel::operator *(float num, const Fraction& frac)
+{
+    return (Fraction(num)*frac);
 }
 
 // divide two fractions 
 Fraction Fraction::operator / (const Fraction& other)
 {
+    if (other == Fraction(0, 1000))
+    {
+        throw std::runtime_error("cant divide by zero");
+    }
     return *this * Fraction(other.getDenominator(), other.getNumerator());
+}
+
+Fraction ariel::operator / (float num, const Fraction& frac)
+{
+    return (Fraction(num)/frac);
 }
 
 // compare two fractions  
@@ -131,29 +160,34 @@ bool  ariel::operator>=(const Fraction& fraction1, const Fraction& fraction2)
     return fraction1.getNumerator() * fraction2.getDenominator() >= fraction2.getNumerator() * fraction1.getDenominator(); 
 }
 
-// increment fraction 
+// increment fraction
+//pre
 Fraction& Fraction::operator++()
 {
     this->increment();
     return *this;
 }
-
+//post
 Fraction Fraction::operator++(int)
 {
-
-    return Fraction(this->getNumerator()+this->getDenominator(),this->getDenominator());
+    Fraction temp(*this);
+    ++*this;
+    return temp;
 }
 
-// decrement fraction 
+// decrement fraction
+//pre
 Fraction& Fraction::operator--()
 {
     this->decrement();
     return *this;
 }
-
+//post
 Fraction Fraction::operator--(int)
 {
-    return Fraction(this->getNumerator()-this->getDenominator(),this->getDenominator());
+    Fraction temp(*this);
+    --*this;
+    return temp;
 }
 
 
