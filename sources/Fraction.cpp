@@ -10,9 +10,9 @@
 #include <limits>
 
 
-using namespace ariel;
 using namespace std;
 
+namespace ariel {
 // **** define constructors ****
 
 // define defaultive constructor
@@ -73,37 +73,37 @@ Fraction::Fraction(float num)
 
 // this method handle overflow multipactation
 //source: https://stackoverflow.com/questions/1815367/catch-and-compute-overflow-during-multiplication-of-two-large-integers and chatgpt
-void Fraction::overflow_multi_test(int a, int b)
+void Fraction::overflow_multi_test(int num1, int num2)
 {
-    int x = a * b;
-    if (a != 0 && x / a != b) {
+    int mul = num1 * num2;
+    if (num1 != 0 && mul / num1 != num2) {
         throw std::overflow_error("multiplictation overflow");
     }
 }
 // this method handle sum overflow
 //source: https://www.geeksforgeeks.org/check-for-integer-overflow/ and chatgpt
-void Fraction::overflow_sum_test(int a, int b)
+void Fraction::overflow_sum_test(int num1, int num2)
 {
-    int x = a+b;
-    if(a > 0 && b > 0 && x < 0)
+    int sum = num1+num2;
+    if(num1 > 0 && num2 > 0 && sum < 0)
         throw std::overflow_error("sum overflow");
-    if(a < 0 && b < 0 && x > 0)
+    if(num1 < 0 && num2 < 0 && sum > 0)
         throw std::overflow_error("sum overflow");
 }
 
 // this method handle sub overflow
 //source: https://www.geeksforgeeks.org/check-for-integer-overflow/ and chatgpt
-void Fraction::overflow_sub_test(int a, int b)
+void Fraction::overflow_sub_test(int num1, int num2)
 {
     int max_int = std::numeric_limits<int>::max();
     int min_int = std::numeric_limits<int>::min();
-    if ((b < 0 && a > (max_int + b)) || (b > 0 && a < (min_int + b))) {
+    if ((num2 < 0 && num1 > (max_int + num2)) || (num2 > 0 && num1 < (min_int + num2))) {
         throw std::overflow_error("Subtraction overflow");
 
     }
 }
 
-// **** define getters ****
+// **** define getters and setters ****
 
 // return the numerator
 int Fraction::getNumerator() const
@@ -114,6 +114,16 @@ int Fraction::getNumerator() const
 int Fraction::getDenominator() const
 {
     return this->denominator;
+}
+// set the value of the numerator 
+void Fraction::setNumerator(int nrm)
+{
+    this->numerator = nrm; 
+}
+// set the value of the denominator 
+void Fraction::setDenominator(int dnm)
+{
+    this->denominator = dnm; 
 }
 
 // **** define functions ****
@@ -152,7 +162,7 @@ Fraction Fraction::operator + (const Fraction& other)
     return Fraction((this->getNumerator()*other.getDenominator()+other.getNumerator()*this->getDenominator()), this->getDenominator()*other.getDenominator());
 }
 
-Fraction ariel::operator +(float num, const Fraction& frac)
+Fraction operator +(float num, const Fraction& frac)
 {
     // send to basic fraction with fraction + operator
     return (Fraction(num)+frac);
@@ -169,7 +179,7 @@ Fraction Fraction::operator - (const Fraction& other)
 
     return Fraction((this->getNumerator()*other.getDenominator()-other.getNumerator()*this->getDenominator()), this->getDenominator()*other.getDenominator());
 }
-Fraction ariel::operator -(float num, const Fraction& frac)
+Fraction operator -(float num, const Fraction& frac)
 {
     // send to basic fraction with fraction - operator
     return (Fraction(num)-frac);
@@ -184,7 +194,7 @@ Fraction Fraction::operator * (const Fraction& other)
 
     return Fraction(this->getNumerator()*other.getNumerator(), this->getDenominator()*other.getDenominator());
 }
-Fraction ariel::operator *(float num, const Fraction& frac)
+Fraction operator *(float num, const Fraction& frac)
 {
     // send to basic fraction with fraction - operator
     return (Fraction(num)*frac);
@@ -202,7 +212,7 @@ Fraction Fraction::operator / (const Fraction& other)
     return *this * Fraction(other.getDenominator(), other.getNumerator());
 }
 
-Fraction ariel::operator / (float num, const Fraction& frac)
+Fraction operator / (float num, const Fraction& frac)
 {
     // send to basic fraction with fraction / operator
     return (Fraction(num)/frac);
@@ -210,27 +220,27 @@ Fraction ariel::operator / (float num, const Fraction& frac)
 
 // **** compare two fractions ****
 // ==
-bool ariel::operator==(const Fraction& fraction1, const Fraction& fraction2)
+bool operator==(const Fraction& fraction1, const Fraction& fraction2)
 {
     return fraction1.getNumerator() * fraction2.getDenominator() == fraction2.getNumerator() * fraction1.getDenominator();
 }
 // <
-bool  ariel::operator<(const Fraction& fraction1, const Fraction& fraction2)
+bool  operator<(const Fraction& fraction1, const Fraction& fraction2)
 {
     return fraction1.getNumerator() * fraction2.getDenominator() < fraction2.getNumerator() * fraction1.getDenominator();
 }
 // >
-bool  ariel::operator>(const Fraction& fraction1, const Fraction& fraction2)
+bool  operator>(const Fraction& fraction1, const Fraction& fraction2)
 {
     return fraction1.getNumerator() * fraction2.getDenominator() > fraction2.getNumerator() * fraction1.getDenominator(); 
 }
 // <=
-bool   ariel::operator<=(const Fraction& fraction1, const Fraction& fraction2)
+bool   operator<=(const Fraction& fraction1, const Fraction& fraction2)
 {
     return fraction1.getNumerator() * fraction2.getDenominator() <= fraction2.getNumerator() * fraction1.getDenominator(); 
 }
 // >=
-bool  ariel::operator>=(const Fraction& fraction1, const Fraction& fraction2)
+bool  operator>=(const Fraction& fraction1, const Fraction& fraction2)
 {
     return fraction1.getNumerator() * fraction2.getDenominator() >= fraction2.getNumerator() * fraction1.getDenominator(); 
 }
@@ -266,16 +276,16 @@ Fraction Fraction::operator--(int)
 }
 // **** define ostream functions ****
 // this function handle the output
-ostream& ariel::operator << (ostream& os, const Fraction& fraction)
+ostream& operator << (ostream& stream_out, const Fraction& fraction)
 {
-    return (os << fraction.numerator << "/" << fraction.denominator);
+    return (stream_out << fraction.getNumerator() << "/" << fraction.getDenominator());
 }
 
 // this function handle the input
-std::istream& ariel::operator >> (std::istream& is, Fraction& fraction)
+std::istream& operator >> (std::istream& stream_in, Fraction& fraction)
 {
     int nrm, dnm;
-    is >> nrm >>dnm;
+    stream_in >> nrm >>dnm;
 
     // IF both integers with are negative show the fraction in positive form
     if (dnm<0 && nrm <0)
@@ -295,15 +305,16 @@ std::istream& ariel::operator >> (std::istream& is, Fraction& fraction)
         throw std::runtime_error("cant have 0 as denominator");
     }
     // if input has failed throws an error
-    if(is.fail() == true)
+    if(stream_in.fail() == true)
     {
         throw std::runtime_error("input error");
     }
 
-    fraction.numerator = nrm;
-    fraction.denominator = dnm;
+    fraction.setNumerator(nrm);
+    fraction.setDenominator(dnm);
     fraction.reduced();
-    return is;
+    return stream_in;
+}
 }
 
 

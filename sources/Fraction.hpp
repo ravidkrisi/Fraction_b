@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// not a good programming but this is the way it only works in clang++ compiler 
 namespace ariel
 {
     class Fraction 
@@ -19,14 +20,16 @@ namespace ariel
             Fraction(int nrm, int dnm); // two integers constructor
             Fraction(float num); // float constructor
 
-            // **** getters declarations ****
+            // **** getters and setters declarations ****
             int getNumerator() const; // getter for numerator
             int getDenominator() const; // getter for Denominator
+            void setNumerator(int nrm); // setter for numerator 
+            void setDenominator(int dnm); // setter for Denominator 
 
             // **** overflow tests declarations ****
-            void overflow_multi_test(int a, int b);
-            void overflow_sub_test(int a, int b);
-            void overflow_sum_test(int a, int b);
+            void overflow_multi_test(int num1, int num2);
+            void overflow_sub_test(int num1, int num2);
+            void overflow_sum_test(int num1, int num2);
 
             // **** functions declarations ****
             void reduced(); // this function reduce the fraction
@@ -65,8 +68,8 @@ namespace ariel
             Fraction operator --(int); // overloading post -- operator
 
             // **** input output operators overloading declarations ****
-            friend ostream& operator << (ostream& os, const Fraction& fraction);
-            friend std::istream& operator >> (std::istream& is, Fraction& fraction);
+            friend ostream& operator << (ostream& stream_out, const Fraction& fraction);
+            friend std::istream& operator >> (std::istream& stream_in, Fraction& fraction);
 
     };
 }
